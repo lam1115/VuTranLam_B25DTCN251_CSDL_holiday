@@ -80,3 +80,29 @@ INSERT INTO order_details (order_id, product_id, quantity, total_price) VALUES
 UPDATE products
 SET stock = stock - 5
 WHERE product_id = 1;
+
+SELECT *
+FROM products
+WHERE category = 'Drink'
+	AND price BETWEEN 10000 AND 50000
+	AND stock > 0;
+    
+SELECT *
+FROM customers
+WHERE full_name LIKE 'Nguyen%' OR address = 'Ha Noi';
+
+SELECT o.order_id, o.order_date, o.status, c.full_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+ORDER BY o.order_date DESC;
+
+SELECT c.full_name, o.order_date, p.product_name, od.quantity, p.price AS unit_price
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_details od ON o.order_id = od.order_id
+JOIN products p ON od.product_id = p.product_id;
+
+SELECT *
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_id IS NULL;
