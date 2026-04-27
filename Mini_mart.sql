@@ -106,3 +106,27 @@ SELECT *
 FROM customers c
 LEFT JOIN orders o ON c.customer_id = o.customer_id
 WHERE o.order_id IS NULL;
+
+SELECT SUM(od.total_price) AS total_revenue
+FROM orders o
+JOIN order_details od ON o.order_id = od.order_id
+WHERE o.status = 'completed';
+
+SELECT category, COUNT(*) AS total_products, AVG(price) AS avg_price
+FROM products
+GROUP BY category;
+
+SELECT c.full_name, SUM(od.total_price) AS total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+JOIN order_details od ON o.order_id = od.order_id
+WHERE o.status = 'completed'
+GROUP BY c.customer_id, c.full_name
+HAVING SUM(od.total_price) > 500000;
+
+SELECT *
+FROM products
+WHERE price > (
+    SELECT AVG(price) FROM products
+);
+
